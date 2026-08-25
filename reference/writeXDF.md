@@ -21,9 +21,9 @@ writeXDF(
 - x:
 
   One
-  [PhysioCore::MultiRatePhysioExperiment](https://x-biosignal.r-universe.dev/PhysioCore/reference/MultiRatePhysioExperiment.html)
+  [PhysioCore::MultiRatePhysioExperiment](https://x-biosignal.github.io/PhysioCore//reference/MultiRatePhysioExperiment.html)
   or
-  [PhysioCore::PhysioExperiment](https://x-biosignal.r-universe.dev/PhysioCore/reference/PhysioExperiment.html).
+  [PhysioCore::PhysioExperiment](https://x-biosignal.github.io/PhysioCore//reference/PhysioExperiment.html).
 
 - path:
 

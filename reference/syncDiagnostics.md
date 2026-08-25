@@ -16,7 +16,7 @@ syncDiagnostics(x, models = NULL, shared_events = NULL)
 - x:
 
   A
-  [`PhysioCore::MultiRatePhysioExperiment`](https://x-biosignal.r-universe.dev/PhysioCore/reference/MultiRatePhysioExperiment.html).
+  [`PhysioCore::MultiRatePhysioExperiment`](https://x-biosignal.github.io/PhysioCore//reference/MultiRatePhysioExperiment.html).
 
 - models:
 

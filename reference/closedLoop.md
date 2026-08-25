@@ -33,7 +33,7 @@ closedLoop(
 
 - trigger:
 
-  A closed, disarmed WS10-09 `TriggerBackend`.
+  A closed, disarmed `TriggerBackend`.
 
 - detector:
 

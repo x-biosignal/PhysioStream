@@ -1,7 +1,8 @@
 # Convert buffered LSL markers to PhysioEvents
 
 Marker timestamps remain in the LSL clock domain unless an explicit
-`time_origin` is subtracted. Cross-stream alignment belongs to WS10-06.
+`time_origin` is subtracted. Cross-stream alignment is handled
+separately.
 
 ## Usage
 
@@ -34,4 +35,4 @@ lslMarkerEvents(x, n = NULL, consume = FALSE, time_origin = 0, type = NULL)
 ## Value
 
 A valid
-[`PhysioCore::PhysioEvents`](https://x-biosignal.r-universe.dev/PhysioCore/reference/PhysioEvents.html).
+[`PhysioCore::PhysioEvents`](https://x-biosignal.github.io/PhysioCore//reference/PhysioEvents.html).
