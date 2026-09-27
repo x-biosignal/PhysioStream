@@ -35,4 +35,4 @@ lslMarkerEvents(x, n = NULL, consume = FALSE, time_origin = 0, type = NULL)
 ## Value
 
 A valid
-[`PhysioCore::PhysioEvents`](https://x-biosignal.github.io/PhysioCore//reference/PhysioEvents.html).
+[`PhysioCore::PhysioEvents`](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/PhysioEvents.html).

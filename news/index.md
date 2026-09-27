@@ -1,5 +1,12 @@
 # Changelog
 
+## PhysioStream 0.9.3
+
+- XDF writing and stream synchronisation accept the canonical
+  `MultiPhysioExperiment`. They previously tested for
+  `MultiRatePhysioExperiment` only, which would have rejected a
+  container built by the current constructor.
+
 ## PhysioStream 0.9.2
 
 - Made two tests portable to the macOS/Windows r-universe binary

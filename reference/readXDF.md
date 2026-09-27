@@ -53,4 +53,4 @@ readXDF(
 ## Value
 
 A valid
-[PhysioCore::MultiRatePhysioExperiment](https://x-biosignal.github.io/PhysioCore//reference/MultiRatePhysioExperiment.html).
+[PhysioCore::MultiRatePhysioExperiment](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html).
