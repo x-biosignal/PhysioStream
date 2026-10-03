@@ -24,3 +24,11 @@ lslAvailable(backend = c("auto", "pylsl"), initialize = FALSE)
 ## Value
 
 One logical value.
+
+## Examples
+
+``` r
+# Reports FALSE unless pylsl and liblsl are installed and loadable.
+lslAvailable()
+#> [1] FALSE
+```

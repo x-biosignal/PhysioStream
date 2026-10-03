@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">PhysioStream</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,6 +16,10 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/offline-streaming.html">An offline streaming workflow</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-ecosystem" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Ecosystem</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-ecosystem"><li><a class="external-link dropdown-item" href="https://x-biosignal.github.io/PhysioCore/">PhysioCore</a></li>
@@ -83,6 +87,18 @@
     <p>A numeric vector preserving names.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sync</span> <span class="op">&lt;-</span> <span class="fu"><a href="videoSync.html">videoSync</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">100</span>, b <span class="op">=</span> <span class="fl">110</span>, c <span class="op">=</span> <span class="fl">120</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span>, b <span class="op">=</span> <span class="fl">11</span>, c <span class="op">=</span> <span class="fl">21</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                  frame_rate <span class="op">=</span> <span class="fl">30</span>, method <span class="op">=</span> <span class="st">"offset"</span>, clock_domain <span class="op">=</span> <span class="st">"demo"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">videoSyncTime</span><span class="op">(</span><span class="va">sync</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">105</span>, y <span class="op">=</span> <span class="fl">115</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  x  y </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6 16 </span>
+<span class="r-in"><span><span class="fu">signalSyncTime</span><span class="op">(</span><span class="va">sync</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">6</span>, y <span class="op">=</span> <span class="fl">16</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   x   y </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 105 115 </span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

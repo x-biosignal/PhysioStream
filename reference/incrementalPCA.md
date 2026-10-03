@@ -32,3 +32,15 @@ incrementalPCA(n_components, n_features = NULL, forgetting = 1, center = TRUE)
 ## Value
 
 A mutable `IncrementalPCA` streaming processor.
+
+## Examples
+
+``` r
+set.seed(1)
+latent <- matrix(rnorm(300), ncol = 3)
+samples <- latent %*% matrix(rnorm(12), 3, 4)
+pca <- incrementalPCA(n_components = 2L)
+result <- update(pca, samples)
+result$diagnostics$explained_variance
+#> [1] 8.033294 4.948562
+```

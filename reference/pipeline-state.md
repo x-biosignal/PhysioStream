@@ -25,3 +25,12 @@ pipelineReset(pipeline, keep_operations = TRUE)
 
 `pipelineState()` returns a deep plain list; `pipelineReset()` returns
 the pipeline invisibly.
+
+## Examples
+
+``` r
+pipeline <- streamPipeline(chunk_size = 8L)
+pipelineState(pipeline)$configuration$chunk_size
+#> [1] 8
+pipelineReset(pipeline)
+```

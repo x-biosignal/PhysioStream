@@ -39,3 +39,12 @@ dejitter(
 ## Value
 
 Regular timestamps with a plain `dejitter` diagnostics attribute.
+
+## Examples
+
+``` r
+raw <- c(10.001, 10.010, 10.021, 10.029)
+regular <- dejitter(raw, nominal_srate = 100)
+as.numeric(regular)
+#> [1] 10.00025 10.01025 10.02025 10.03025
+```

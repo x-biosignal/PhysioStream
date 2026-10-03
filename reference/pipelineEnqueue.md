@@ -31,3 +31,13 @@ pipelineEnqueue(pipeline, samples, timestamps = NULL, ingest_time_ns = NULL)
 ## Value
 
 `pipeline`, invisibly.
+
+## Examples
+
+``` r
+pipeline <- streamPipeline(chunk_size = 4L)
+x <- matrix(1:8, 4L, 2L, dimnames = list(NULL, c("a", "b")))
+pipelineEnqueue(pipeline, x, c(1, 2, 3, 4))
+pipelineState(pipeline)$channel_names
+#> [1] "a" "b"
+```

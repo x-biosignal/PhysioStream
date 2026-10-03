@@ -78,3 +78,16 @@ streamInfo(name, ...)
 ## Value
 
 A `StreamInfo` object, or an endpoint's `StreamInfo`.
+
+## Examples
+
+``` r
+info <- streamInfo("eeg-demo", type = "EEG",
+                   channel_names = c("C3", "Cz", "C4"),
+                   nominal_srate = 250, channel_units = rep("uV", 3))
+info
+#> StreamInfo<1.0.0>: eeg-demo
+#>   type: EEG; channels: 3; rate: 250 Hz; dtype: float64
+streamChannels(info)
+#> [1] "C3" "Cz" "C4"
+```

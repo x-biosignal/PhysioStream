@@ -39,3 +39,15 @@ emergencyStop(trigger, reason = "caller", now_ns = NULL)
 ## Value
 
 The trigger, invisibly.
+
+## Examples
+
+``` r
+trigger <- loopbackTrigger(allowed_channels = "left", max_intensity = 20,
+                           intensity_unit = "mA", max_duration_ms = 500,
+                           refractory_ms = 0, deadman_ms = 1000)
+triggerOpen(trigger)
+armTrigger(trigger, "session-1", now_ns = 0)
+triggerState(trigger)$arm$status
+#> [1] "armed"
+```

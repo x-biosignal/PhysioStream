@@ -60,3 +60,12 @@ erdIntentOp(
 ## Value
 
 A governed `PipelineOperation` detector descriptor.
+
+## Examples
+
+``` r
+detector <- erdIntentOp("eeg", sampling_rate = 1000, band = c(8, 13),
+                        baseline_samples = 40, power_window_samples = 10)
+class(detector)
+#> [1] "PipelineOperation"
+```

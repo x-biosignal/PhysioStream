@@ -43,3 +43,11 @@ streamPipeline(
 ## Value
 
 A `StreamPipeline` environment.
+
+## Examples
+
+``` r
+pipeline <- streamPipeline(chunk_size = 8L)
+pipelineState(pipeline)$configuration$chunk_size
+#> [1] 8
+```

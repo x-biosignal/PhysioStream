@@ -35,3 +35,14 @@ onChunk(pipeline, callback, state = NULL, name = NULL, kind = "filter")
 ## Value
 
 `pipeline`, invisibly.
+
+## Examples
+
+``` r
+sos <- matrix(c(1, 0, 0, 1, 0, 0), 1L, 6L,
+              dimnames = list(NULL, c("b0", "b1", "b2", "a0", "a1", "a2")))
+pipeline <- streamPipeline(chunk_size = 8L)
+onChunk(pipeline, bandpassRmsOp(sos, window_samples = 4L))
+length(pipelineState(pipeline)$operations)
+#> [1] 1
+```

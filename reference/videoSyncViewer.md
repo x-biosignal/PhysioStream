@@ -88,3 +88,18 @@ videoSyncViewer(
 
 A `BiofeedbackScope` or the result of
 [`shiny::runApp()`](https://rdrr.io/pkg/shiny/man/runApp.html).
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Requires a Shiny session and a local video file for display.
+info <- streamInfo("demo", type = "EEG",
+                   channel_names = c("left", "right"), nominal_srate = 100,
+                   channel_units = c("uV", "uV"))
+source <- streamOpen(loopbackSource(info, capacity = 256L))
+sync <- videoSync(c(a = 100, b = 110, c = 120), c(a = 1, b = 11, c = 21),
+                  frame_rate = 30, method = "offset", clock_domain = "local")
+viewer <- videoSyncViewer(source, "session.mp4", sync, launch = FALSE)
+} # }
+```

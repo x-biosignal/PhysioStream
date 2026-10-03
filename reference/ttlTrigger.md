@@ -101,3 +101,16 @@ A closed, disarmed `TtlTrigger`.
 Opening some serial ports can momentarily affect RTS/DTR control lines.
 Hardware must remain fail-safe despite port open, process failure,
 malformed frames, and communication loss.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Serial transport requires a device exposing a TTL line; see
+# loopbackTrigger() for an offline equivalent with the same interlocks.
+trigger <- ttlTrigger(transport = "serial", port = "/dev/ttyUSB0",
+                      allowed_channels = "left", max_intensity = 20,
+                      intensity_unit = "mA", max_duration_ms = 500,
+                      refractory_ms = 0, deadman_ms = 1000)
+} # }
+```

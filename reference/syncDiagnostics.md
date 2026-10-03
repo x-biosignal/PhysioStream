@@ -16,7 +16,7 @@ syncDiagnostics(x, models = NULL, shared_events = NULL)
 - x:
 
   A
-  [`PhysioCore::MultiRatePhysioExperiment`](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html).
+  [`PhysioExperiment::MultiPhysioExperiment`](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html).
 
 - models:
 
@@ -29,3 +29,13 @@ syncDiagnostics(x, models = NULL, shared_events = NULL)
 ## Value
 
 One plain data-frame row per stream/reset segment.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Requires a multi-stream container (MultiPhysioExperiment), e.g. from
+# readXDF().
+diagnostics <- syncDiagnostics(container)
+} # }
+```

@@ -17,3 +17,12 @@ xdfBackendInfo(backend = c("auto", "pyxdf"))
 ## Value
 
 A serializable named list of backend and runtime versions.
+
+## Examples
+
+``` r
+# \donttest{
+# Resolving the backend version requires the pyxdf backend.
+if (xdfAvailable()) str(xdfBackendInfo())
+# }
+```

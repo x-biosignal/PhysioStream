@@ -74,14 +74,33 @@ streamPush(x, ...)
 
   A stream endpoint.
 
-- timeout:
-
-  Optional finite non-negative LSL inlet open timeout.
-
 - ...:
 
   Backend-specific arguments.
 
+- timeout:
+
+  Optional finite non-negative LSL inlet open timeout.
+
 ## Value
 
 Backend-specific output.
+
+## Examples
+
+``` r
+# Drive the lifecycle on a device-free loopback source.
+info <- streamInfo("demo", type = "EEG",
+                   channel_names = c("C3", "C4"), nominal_srate = 100)
+src <- streamOpen(loopbackSource(info, capacity = 16L))
+streamState(src)
+#> [1] "open"
+loopbackFeed(src, matrix(as.double(1:4), 2, 2), c(0.01, 0.02))
+streamPull(src)$samples
+#>      [,1] [,2]
+#> [1,]    1    3
+#> [2,]    2    4
+src <- streamClose(src)
+streamState(src)
+#> [1] "closed"
+```

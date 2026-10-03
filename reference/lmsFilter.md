@@ -32,3 +32,20 @@ lmsFilter(n_taps, step_size, leakage = 0, initial_weights = NULL)
 ## Value
 
 A mutable `LMSFilter` streaming processor.
+
+## Examples
+
+``` r
+# Cancel a reference-correlated component from a short synthetic signal.
+set.seed(1)
+reference <- sin(2 * pi * 5 * seq_len(200) / 100)
+signal <- 0.4 * reference + rnorm(200, sd = 0.05)
+filt <- lmsFilter(n_taps = 4L, step_size = 0.05)
+result <- update(filt, matrix(signal, ncol = 1),
+                 reference = matrix(reference, ncol = 1))
+str(result$output)
+#>  num [1:200, 1] 0.0923 0.2435 0.2727 0.4295 0.3312 ...
+#>  - attr(*, "dimnames")=List of 2
+#>   ..$ : NULL
+#>   ..$ : chr "channel_1"
+```

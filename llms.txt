@@ -11,16 +11,37 @@ corrected timestamps, clock observations, stream XML, and string markers
 in a multi-rate container. The native XDF writer does not require
 Python.
 
+A minimal quick start uses an in-process loopback stream – no device,
+driver, or network – and takes a governed snapshot into a
+`PhysioExperiment`:
+
+``` r
+
+library(PhysioStream)
+
+info <- streamInfo("demo", type = "EEG",
+                   channel_names = c("C3", "C4"), nominal_srate = 100)
+source <- streamOpen(loopbackSource(info, capacity = 1024L))
+
+set.seed(1)
+samples <- matrix(rnorm(100 * 2), nrow = 100, ncol = 2)
+loopbackFeed(source, samples, timestamps = seq_len(100) / 100)
+
+pe <- streamSnapshot(source)
+pe
+```
+
 Recorded clock evidence can be converted into an explicit, serializable
 model and applied without interpolating samples:
 
 ``` r
 
+set.seed(1)
+clock_times <- seq(0, 60, by = 5)
+clock_offsets <- 1e-3 * clock_times + rnorm(length(clock_times), sd = 1e-5)
 model <- clockOffset(clock_times, clock_offsets)
-master_time <- driftCorrect(device_time, model)
-regular_time <- dejitter(master_time, nominal_srate = 1000)
-synced <- syncStreams(xdf_container)
-syncDiagnostics(synced)
+master_time <- driftCorrect(seq(0, 60, by = 0.01), model)
+regular_time <- dejitter(as.numeric(master_time), nominal_srate = 100)
 ```
 
 The sign convention is always
@@ -32,6 +53,10 @@ Stateful DSP processors accept sample-by-channel chunks and expose
 portable, hashed numeric state:
 
 ``` r
+
+set.seed(1)
+signal_chunk <- matrix(rnorm(256 * 2), nrow = 256, ncol = 2)
+noise_chunk <- matrix(rnorm(256 * 2), nrow = 256, ncol = 2)
 
 adaptive <- rlsFilter(n_taps = 16, forgetting = 0.995)
 filtered <- update(adaptive, signal_chunk, reference = noise_chunk)
@@ -52,6 +77,8 @@ explicit loss and latency evidence:
 
 ``` r
 
+sos <- PhysioPreprocess::sosDesign(low = 1, high = 40, order = 4,
+                                   type = "pass", sr = 1000)
 pipeline <- streamPipeline(
   chunk_size = 32,
   queue_capacity = 8,
@@ -59,7 +86,9 @@ pipeline <- streamPipeline(
 )
 operation <- bandpassRmsOp(sos, window_samples = 128)
 onChunk(pipeline, operation)
-pipelineEnqueue(pipeline, signal_chunk, timestamps)
+chunk <- matrix(rnorm(32 * 2), nrow = 32, ncol = 2,
+                dimnames = list(NULL, c("C3", "C4")))
+pipelineEnqueue(pipeline, chunk, timestamps = seq_len(32) / 1000)
 processed <- pipelineStep(pipeline)
 pipelineState(pipeline)
 ```
@@ -106,8 +135,9 @@ LSL access uses an existing `reticulate` Python environment containing
 
 ``` r
 
-lslAvailable(initialize = TRUE)
-lslBackendInfo()
+if (lslAvailable(initialize = TRUE)) {
+  lslBackendInfo()
+}
 ```
 
 [`lslResolveStreams()`](https://x-biosignal.github.io/PhysioStream/reference/lslResolveStreams.md)
@@ -131,10 +161,13 @@ XDF reading uses the same existing environment policy with `pyxdf`:
 
 ``` r
 
-xdfAvailable(initialize = TRUE)
-xdfBackendInfo()
-x <- readXDF("recording.xdf")
-writeXDF(x, "roundtrip.xdf")
+if (xdfAvailable(initialize = TRUE)) {
+  xdfBackendInfo()
+  x <- readXDF(system.file("extdata", "xdf-minimal.xdf", package = "PhysioStream"))
+  synced <- syncStreams(x)
+  syncDiagnostics(synced)
+  writeXDF(x, file.path(tempdir(), "roundtrip.xdf"))
+}
 ```
 
 `rowData(stream)$xdf_time` remains the authoritative timestamp vector
@@ -336,3 +369,9 @@ install.packages(
 - [`xdfBackendInfo()`](https://x-biosignal.github.io/PhysioStream/reference/xdfBackendInfo.md)
   : Report the configured XDF backend
 
+# Articles
+
+### All vignettes
+
+- [An offline streaming
+  workflow](https://x-biosignal.github.io/PhysioStream/articles/offline-streaming.md):

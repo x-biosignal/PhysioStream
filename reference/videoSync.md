@@ -51,3 +51,15 @@ videoSync(
 ## Value
 
 A sealed portable `VideoSync`.
+
+## Examples
+
+``` r
+sync <- videoSync(
+  signal_time = c(a = 100, b = 110, c = 120),
+  video_time = c(a = 1, b = 11, c = 21),
+  frame_rate = 30, method = "offset", clock_domain = "demo")
+videoSyncTime(sync, c(x = 105))
+#> x 
+#> 6 
+```

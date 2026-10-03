@@ -51,3 +51,18 @@ lslInlet(
 ## Value
 
 An `LSLInlet` in state `"created"`.
+
+## Examples
+
+``` r
+# \donttest{
+# Requires a running LSL stream on the local network.
+if (lslAvailable()) {
+  found <- lslResolveStreams(timeout = 0.2)
+  if (length(found)) {
+    inlet <- streamOpen(lslInlet(found[[1]]))
+    streamClose(inlet)
+  }
+}
+# }
+```

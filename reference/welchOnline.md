@@ -67,3 +67,14 @@ welchOnline(
 ## Value
 
 A mutable `OnlineWelch` streaming processor.
+
+## Examples
+
+``` r
+sr <- 100
+signal <- sin(2 * pi * 10 * seq_len(256) / sr)
+welch <- welchOnline(sr, window_samples = 64L, hop_samples = 32L)
+result <- update(welch, signal)
+dim(result$output)
+#> [1]  7 33  1
+```

@@ -61,3 +61,13 @@ clockOffset(
 ## Value
 
 A serializable `StreamClockModel`.
+
+## Examples
+
+``` r
+device <- seq(0, 10, by = 0.5)
+offset <- -0.4 + 0.005 * (device - median(device))
+model <- clockOffset(device, offset, method = "ols")
+model$segments$drift_ppm
+#> [1] 5000
+```

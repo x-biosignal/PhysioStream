@@ -1,10 +1,11 @@
 # Read an Extensible Data Format file
 
 XDF timestamps are authoritative in `rowData(x)$xdf_time`; the regular
-`streamTimeIndex()` grid of the returned multi-rate container is only a
-nominal convenience for jittered or irregular streams. Files and
-converted payloads are also bounded by a private 512 MiB in-memory
-ceiling even when `max_file_bytes` is larger.
+[`streamTimeIndex()`](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/streamTimeIndex.html)
+grid of the returned multi-rate container is only a nominal convenience
+for jittered or irregular streams. Files and converted payloads are also
+bounded by a private 512 MiB in-memory ceiling even when
+`max_file_bytes` is larger.
 
 ## Usage
 
@@ -53,4 +54,17 @@ readXDF(
 ## Value
 
 A valid
-[PhysioCore::MultiRatePhysioExperiment](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html).
+[PhysioExperiment::MultiPhysioExperiment](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html).
+
+## Examples
+
+``` r
+# \donttest{
+# Reading XDF requires the pyxdf backend (via reticulate).
+if (xdfAvailable()) {
+  path <- system.file("extdata", "xdf-minimal.xdf",
+                      package = "PhysioStream")
+  container <- readXDF(path)
+}
+# }
+```

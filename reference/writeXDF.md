@@ -21,9 +21,9 @@ writeXDF(
 - x:
 
   One
-  [PhysioCore::MultiRatePhysioExperiment](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html)
+  [PhysioExperiment::MultiPhysioExperiment](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html)
   or
-  [PhysioCore::PhysioExperiment](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/PhysioExperiment.html).
+  [PhysioExperiment::PhysioExperiment](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/PhysioExperiment.html).
 
 - path:
 
@@ -44,3 +44,13 @@ writeXDF(
 ## Value
 
 The normalized output path, invisibly.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Writing XDF requires the pyxdf backend and a multi-stream container,
+# e.g. one returned by readXDF().
+writeXDF(container, tempfile(fileext = ".xdf"))
+} # }
+```

@@ -11,7 +11,7 @@ onChunk() and performs no processing until registered and stepped."></head><body
 
     <a class="navbar-brand me-2" href="../index.html">PhysioStream</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,10 @@ onChunk() and performs no processing until registered and stepped."></head><body
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/offline-streaming.html">An offline streaming workflow</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-ecosystem" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Ecosystem</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-ecosystem"><li><a class="external-link dropdown-item" href="https://x-biosignal.github.io/PhysioCore/">PhysioCore</a></li>
@@ -98,6 +102,29 @@ complete window exists.</p></dd>
     <p>A <code>PipelineOperation</code> descriptor.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># A pass-through SOS keeps the example self-contained; use</span></span></span>
+<span class="r-in"><span><span class="co"># PhysioPreprocess::sosDesign() for a real band definition.</span></span></span>
+<span class="r-in"><span><span class="va">sos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, <span class="fl">1L</span>, <span class="fl">6L</span>,</span></span>
+<span class="r-in"><span>              dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b0"</span>, <span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"a0"</span>, <span class="st">"a1"</span>, <span class="st">"a2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">op</span> <span class="op">&lt;-</span> <span class="fu">bandpassRmsOp</span><span class="op">(</span><span class="va">sos</span>, window_samples <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pipeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamPipeline.html">streamPipeline</a></span><span class="op">(</span>chunk_size <span class="op">=</span> <span class="fl">8L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="onChunk.html">onChunk</a></span><span class="op">(</span><span class="va">pipeline</span>, <span class="va">op</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">16</span><span class="op">)</span><span class="op">)</span>, <span class="fl">8</span>, <span class="fl">2</span>, dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C3"</span>, <span class="st">"C4"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="pipelineEnqueue.html">pipelineEnqueue</a></span><span class="op">(</span><span class="va">pipeline</span>, <span class="va">x</span>, ingest_time_ns <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="pipelineStep.html">pipelineStep</a></span><span class="op">(</span><span class="va">pipeline</span><span class="op">)</span><span class="op">$</span><span class="va">results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">output</span><span class="op">$</span><span class="va">samples</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         C3_rms    C4_rms</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.8414710 0.4121185</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.8760409 0.4825975</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.7199097 0.6989948</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.7293079 0.6621351</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.7646931 0.6633985</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.6305303 0.7819422</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [7,] 0.7074585 0.6834889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [8,] 0.7758979 0.6449042</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

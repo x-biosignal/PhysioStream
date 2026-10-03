@@ -1,5 +1,30 @@
 # Changelog
 
+## PhysioStream 0.9.4
+
+### Documentation
+
+- A vignette carries one task end to end on synthetic or bundled data,
+  offline, and is built and run by `R CMD check`.
+- Runnable `@examples` added or corrected across 75 help pages. Each
+  runs offline in seconds, writes nothing outside
+  [`tempdir()`](https://rdrr.io/r/base/tempfile.html), and is executed
+  by `R CMD check`; anything needing a device, a download or an optional
+  backend is fenced with the reason stated.
+- The README’s quick start runs as written: it attaches the package,
+  builds its own inputs, and uses only hard dependencies.
+
+### Bug fixes
+
+- [`bandpassRmsOp()`](https://x-biosignal.github.io/PhysioStream/reference/bandpassRmsOp.md)
+  crashed on a matrix with no column names – the most natural thing to
+  hand a pipeline – because naming the output computed
+  `paste0(NULL, "_rms")`, length one, against a multi-column matrix. The
+  same `NULL` also served as the not-yet-initialised flag, so an unnamed
+  stream reset its filter state on every chunk, silently discarding the
+  carried `zi` and RMS window. Channel names are synthesised once as
+  `Ch1..Chn` and initialisation is tracked explicitly.
+
 ## PhysioStream 0.9.3
 
 - XDF writing and stream synchronisation accept the canonical

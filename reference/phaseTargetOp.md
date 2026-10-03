@@ -60,3 +60,19 @@ phaseTargetOp(
 ## Value
 
 A governed `PipelineOperation` detector descriptor.
+
+## Examples
+
+``` r
+sr <- 500
+t <- seq_len(800) / sr
+eeg <- 1.7 + 2.5 * cos(2 * pi * 9 * t + 0.7)
+detector <- phaseTargetOp("eeg", sampling_rate = sr, frequency = 9,
+                          target_degrees = 90)
+pipeline <- streamPipeline(chunk_size = length(eeg))
+onChunk(pipeline, detector)
+pipelineEnqueue(pipeline,
+                matrix(eeg, ncol = 1, dimnames = list(NULL, "eeg")), t)
+length(pipelineStep(pipeline)$results[[1]]$events)
+#> [1] 12
+```

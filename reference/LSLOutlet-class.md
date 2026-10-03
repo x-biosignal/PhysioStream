@@ -15,3 +15,11 @@ Lab Streaming Layer outlet
 - `max_buffered`:
 
   LSL sender buffer bound.
+
+## Examples
+
+``` r
+# Concrete outlet objects come from lslOutlet(); see ?lslOutlet.
+isVirtualClass("LSLOutlet")
+#> [1] FALSE
+```

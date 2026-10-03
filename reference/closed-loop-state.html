@@ -9,7 +9,7 @@ trigger credential, patient identifier, or raw physiological samples."></head><b
 
     <a class="navbar-brand me-2" href="../index.html">PhysioStream</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,6 +18,10 @@ trigger credential, patient identifier, or raw physiological samples."></head><b
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/offline-streaming.html">An offline streaming workflow</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-ecosystem" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Ecosystem</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-ecosystem"><li><a class="external-link dropdown-item" href="https://x-biosignal.github.io/PhysioCore/">PhysioCore</a></li>
@@ -79,6 +83,22 @@ trigger credential, patient identifier, or raw physiological samples.</p>
 returns its bounded structured session log.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pipeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamPipeline.html">streamPipeline</a></span><span class="op">(</span>chunk_size <span class="op">=</span> <span class="fl">2048L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trigger</span> <span class="op">&lt;-</span> <span class="fu"><a href="loopbackTrigger.html">loopbackTrigger</a></span><span class="op">(</span>allowed_channels <span class="op">=</span> <span class="st">"left"</span>, max_intensity <span class="op">=</span> <span class="fl">20</span>,</span></span>
+<span class="r-in"><span>                           intensity_unit <span class="op">=</span> <span class="st">"mA"</span>, max_duration_ms <span class="op">=</span> <span class="fl">500</span>,</span></span>
+<span class="r-in"><span>                           refractory_ms <span class="op">=</span> <span class="fl">0</span>, deadman_ms <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">detector</span> <span class="op">&lt;-</span> <span class="fu"><a href="emgOnsetOp.html">emgOnsetOp</a></span><span class="op">(</span><span class="st">"emg"</span>, sampling_rate <span class="op">=</span> <span class="fl">1000</span>,</span></span>
+<span class="r-in"><span>                       baseline_samples <span class="op">=</span> <span class="fl">30</span>, rms_window_samples <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">controller</span> <span class="op">&lt;-</span> <span class="fu"><a href="closedLoop.html">closedLoop</a></span><span class="op">(</span><span class="va">pipeline</span>, <span class="va">trigger</span>, <span class="va">detector</span>, intensity <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                         stim_channel <span class="op">=</span> <span class="st">"left"</span>, duration_ms <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">closedLoopState</span><span class="op">(</span><span class="va">controller</span><span class="op">)</span><span class="op">$</span><span class="va">lifecycle</span><span class="op">$</span><span class="va">status</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "constructed"</span>
+<span class="r-in"><span><span class="fu">closedLoopLog</span><span class="op">(</span><span class="va">controller</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

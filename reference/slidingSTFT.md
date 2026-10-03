@@ -67,3 +67,15 @@ slidingSTFT(
 ## Value
 
 A mutable `SlidingSTFT` streaming processor.
+
+## Examples
+
+``` r
+sr <- 100
+signal <- sin(2 * pi * 10 * seq_len(200) / sr)
+stft <- slidingSTFT(sr, window_samples = 64L, hop_samples = 16L,
+                    output = "power")
+result <- update(stft, signal)
+dim(result$output)
+#> [1]  9 33  1
+```

@@ -46,3 +46,21 @@ biofeedbackUpdate(
 ## Value
 
 An immutable plain receipt.
+
+## Examples
+
+``` r
+info <- streamInfo("demo", type = "EEG",
+                   channel_names = c("left", "right"), nominal_srate = 100,
+                   channel_units = c("uV", "uV"))
+source <- streamOpen(loopbackSource(info, capacity = 4096L))
+scope <- biofeedbackScope(source, derived = list(
+  score = list(type = "external", unit = "ratio", gain = 1)
+), launch = FALSE)
+biofeedbackStart(scope)
+receipt <- biofeedbackUpdate(scope, c(score = 0.8), timestamp = 1,
+                             units = "ratio", sequence = 0)
+receipt$names
+#> [1] "score"
+biofeedbackStop(scope)
+```

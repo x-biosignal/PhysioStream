@@ -27,3 +27,16 @@ signalSyncTime(sync, video_time)
 ## Value
 
 A numeric vector preserving names.
+
+## Examples
+
+``` r
+sync <- videoSync(c(a = 100, b = 110, c = 120), c(a = 1, b = 11, c = 21),
+                  frame_rate = 30, method = "offset", clock_domain = "demo")
+videoSyncTime(sync, c(x = 105, y = 115))
+#>  x  y 
+#>  6 16 
+signalSyncTime(sync, c(x = 6, y = 16))
+#>   x   y 
+#> 105 115 
+```

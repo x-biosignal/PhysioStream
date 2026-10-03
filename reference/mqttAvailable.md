@@ -23,3 +23,11 @@ mqttBackendInfo()
 
 `mqttAvailable()` returns one logical value. `mqttBackendInfo()` returns
 a plain capability list.
+
+## Examples
+
+``` r
+# Reports FALSE unless the pinned Paho MQTT backend is installed.
+mqttAvailable()
+#> [1] FALSE
+```

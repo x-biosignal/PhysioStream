@@ -28,3 +28,11 @@ not survive serialization.
 - `marker_capacity`:
 
   Marker queue capacity.
+
+## Examples
+
+``` r
+# Concrete inlet objects come from lslInlet(); see ?lslInlet.
+isVirtualClass("LSLInlet")
+#> [1] FALSE
+```

@@ -22,7 +22,7 @@ syncStreams(
 - x:
 
   A
-  [`PhysioCore::MultiRatePhysioExperiment`](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html).
+  [`PhysioExperiment::MultiPhysioExperiment`](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html).
 
 - master:
 
@@ -47,4 +47,14 @@ syncStreams(
 ## Value
 
 A synchronized
-[`PhysioCore::MultiRatePhysioExperiment`](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html).
+[`PhysioExperiment::MultiPhysioExperiment`](https://x-biosignal.r-universe.dev/PhysioExperiment/reference/MultiPhysioExperiment.html).
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Requires a multi-stream container (MultiPhysioExperiment), e.g. from
+# readXDF(); `master` names the reference stream key.
+synced <- syncStreams(container, master = "eeg")
+} # }
+```

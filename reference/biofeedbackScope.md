@@ -101,3 +101,16 @@ biofeedbackScope(
 
 A `BiofeedbackScope` when `launch = FALSE`, otherwise the result of
 [`shiny::runApp()`](https://rdrr.io/pkg/shiny/man/runApp.html).
+
+## Examples
+
+``` r
+# Construction is device-free; Shiny is required only for launch = TRUE.
+info <- streamInfo("demo", type = "EEG",
+                   channel_names = c("left", "right"), nominal_srate = 100,
+                   channel_units = c("uV", "uV"))
+source <- loopbackSource(info, capacity = 256L)
+scope <- biofeedbackScope(source, source_lifecycle = "own", launch = FALSE)
+biofeedbackState(scope)$lifecycle
+#> [1] "created"
+```

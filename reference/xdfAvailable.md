@@ -25,3 +25,11 @@ xdfAvailable(backend = c("auto", "pyxdf"), initialize = FALSE)
 ## Value
 
 One non-missing logical value.
+
+## Examples
+
+``` r
+# Reports FALSE unless the pyxdf backend is installed.
+xdfAvailable()
+#> [1] FALSE
+```

@@ -59,3 +59,15 @@ onlineICA(
 ## Value
 
 A mutable `OnlineICA` streaming processor.
+
+## Examples
+
+``` r
+set.seed(1)
+sources <- cbind(sin(seq_len(200) / 5), sign(sin(seq_len(200) / 7)))
+samples <- sources %*% t(matrix(c(1, 0.4, 0.3, 1), 2, 2))
+ica <- onlineICA(n_components = 2L, block_size = 10L)
+result <- update(ica, samples)
+dim(result$output)
+#> [1] 200   2
+```

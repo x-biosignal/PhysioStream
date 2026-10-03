@@ -45,3 +45,13 @@ show(object)
 - `schema_version`:
 
   Metadata schema identifier.
+
+## Examples
+
+``` r
+info <- streamInfo("eeg-demo", type = "EEG",
+                   channel_names = c("C3", "C4"), nominal_srate = 250)
+info
+#> StreamInfo<1.0.0>: eeg-demo
+#>   type: EEG; channels: 2; rate: 250 Hz; dtype: float64
+```

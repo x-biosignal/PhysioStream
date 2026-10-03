@@ -117,3 +117,17 @@ A closed, disarmed `MqttTrigger`.
 
 TLS is required by default. Plaintext is restricted to an explicitly
 acknowledged loopback-only test broker.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Requires a reachable MQTT broker; see loopbackTrigger() for an
+# offline equivalent with the same interlocks.
+trigger <- mqttTrigger(host = "127.0.0.1", port = 1883,
+                       topic = "stim/commands",
+                       allowed_channels = "left", max_intensity = 20,
+                       intensity_unit = "mA", max_duration_ms = 500,
+                       refractory_ms = 0, deadman_ms = 1000)
+} # }
+```

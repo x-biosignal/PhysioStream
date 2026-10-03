@@ -39,3 +39,14 @@ lslResolveStreams(
 ## Value
 
 A list of validated `StreamInfo` objects in backend order.
+
+## Examples
+
+``` r
+# \donttest{
+# Requires a running LSL network with at least one stream.
+if (lslAvailable()) {
+  streams <- lslResolveStreams(timeout = 0.2)
+}
+# }
+```

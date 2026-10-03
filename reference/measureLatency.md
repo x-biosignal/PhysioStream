@@ -56,3 +56,15 @@ measureLatency(
 
 A plain benchmark result with summary, latency rows, pipeline state,
 hardware, configuration, and reference hash.
+
+## Examples
+
+``` r
+# Tiny deterministic benchmark; sampling_rate * duration_s must divide
+# evenly by hop_samples.
+bench <- measureLatency(n_channels = 2L, sampling_rate = 100,
+                        hop_samples = 10L, duration_s = 0.5,
+                        warmup_chunks = 1L, seed = 1L)
+bench$summary$count
+#> [1] 5
+```

@@ -58,3 +58,19 @@ emgOnsetOp(
 ## Value
 
 A governed `PipelineOperation` detector descriptor.
+
+## Examples
+
+``` r
+set.seed(1)
+emg <- c(rnorm(80, sd = 0.08), rep(1.5, 12), rnorm(30, sd = 0.08))
+detector <- emgOnsetOp("emg", sampling_rate = 1000,
+                       baseline_samples = 50, rms_window_samples = 8)
+pipeline <- streamPipeline(chunk_size = length(emg))
+onChunk(pipeline, detector)
+pipelineEnqueue(pipeline,
+                matrix(emg, ncol = 1, dimnames = list(NULL, "emg")),
+                seq_along(emg) / 1000)
+length(pipelineStep(pipeline)$results[[1]]$events)
+#> [1] 1
+```

@@ -50,3 +50,17 @@ Receipts and audit records bind lifecycle and arm generations,
 validation, attempt, and acknowledgement times, and bounded error
 class/code. A caller interrupt after transport invocation first
 finalizes an `unknown` audit record and then re-signals the interrupt.
+
+## Examples
+
+``` r
+trigger <- loopbackTrigger(allowed_channels = "left", max_intensity = 20,
+                           intensity_unit = "mA", max_duration_ms = 500,
+                           refractory_ms = 0, deadman_ms = 1000)
+triggerOpen(trigger)
+armTrigger(trigger, "session-1", now_ns = 0)
+receipt <- sendStim(trigger, intensity = 2.5, channel = "left",
+                    duration_ms = 125, command_id = "cmd-1", now_ns = 10)
+receipt$status
+#> [1] "acknowledged"
+```

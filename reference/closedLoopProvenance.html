@@ -11,7 +11,7 @@ and trigger runtime values are excluded."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">PhysioStream</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,10 @@ and trigger runtime values are excluded."></head><body>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/offline-streaming.html">An offline streaming workflow</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-ecosystem" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Ecosystem</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-ecosystem"><li><a class="external-link dropdown-item" href="https://x-biosignal.github.io/PhysioCore/">PhysioCore</a></li>
@@ -87,6 +91,247 @@ and trigger runtime values are excluded.</p>
     <p>A modified <code>PhysioExperiment</code> with one provenance activity.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">pipeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="streamPipeline.html">streamPipeline</a></span><span class="op">(</span>chunk_size <span class="op">=</span> <span class="fl">2048L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trigger</span> <span class="op">&lt;-</span> <span class="fu"><a href="loopbackTrigger.html">loopbackTrigger</a></span><span class="op">(</span>allowed_channels <span class="op">=</span> <span class="st">"left"</span>, max_intensity <span class="op">=</span> <span class="fl">20</span>,</span></span>
+<span class="r-in"><span>                           intensity_unit <span class="op">=</span> <span class="st">"mA"</span>, max_duration_ms <span class="op">=</span> <span class="fl">500</span>,</span></span>
+<span class="r-in"><span>                           refractory_ms <span class="op">=</span> <span class="fl">0</span>, deadman_ms <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">detector</span> <span class="op">&lt;-</span> <span class="fu"><a href="emgOnsetOp.html">emgOnsetOp</a></span><span class="op">(</span><span class="st">"emg"</span>, sampling_rate <span class="op">=</span> <span class="fl">1000</span>,</span></span>
+<span class="r-in"><span>                       baseline_samples <span class="op">=</span> <span class="fl">30</span>, rms_window_samples <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">controller</span> <span class="op">&lt;-</span> <span class="fu"><a href="closedLoop.html">closedLoop</a></span><span class="op">(</span><span class="va">pipeline</span>, <span class="va">trigger</span>, <span class="va">detector</span>, intensity <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                         stim_channel <span class="op">=</span> <span class="st">"left"</span>, duration_ms <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="closed-loop-lifecycle.html">closedLoopStart</a></span><span class="op">(</span><span class="va">controller</span>, <span class="st">"demo-session"</span>, now_ns <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="closed-loop-lifecycle.html">closedLoopStep</a></span><span class="op">(</span><span class="va">controller</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, sd <span class="op">=</span> <span class="fl">0.08</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">1</span>, dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="st">"emg"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  now_ns <span class="op">=</span> <span class="fl">1e6</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$output</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$output$samples</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 emg</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1,] -0.049629334</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [2,]  0.003369270</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [3,] -0.072873732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [4,]  0.012642302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [5,] -0.052366772</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [6,]  0.141382982</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7,]  0.057336598</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [8,]  0.072813938</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [9,]  0.030734829</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [10,]  0.134574086</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [11,] -0.050858916</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [12,] -0.036931578</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13,]  0.114582579</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [14,] -0.052055708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [15,] -0.016590459</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [16,] -0.031424634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [17,] -0.025599429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [18,] -0.022329064</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19,]  0.039535067</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [20,] -0.014186439</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [21,] -0.040476597</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [22,]  0.107443106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [23,] -0.017166353</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [24,] -0.014364522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25,] -0.008015259</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [26,]  0.057013305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [27,] -0.005885152</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [28,] -0.003010734</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [29,] -0.054532838</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [30,] -0.025941622</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31,]  0.004812835</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [32,] -0.047111559</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [33,]  0.042519695</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [34,] -0.121471527</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [35,]  0.024524629</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [36,] -0.122915986</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37,] -0.024078090</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [38,] -0.042262392</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [39,] -0.052167582</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [40,] -0.004551742</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [41,] -0.153148754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [42,]  0.094126665</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43,] -0.133197795</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [44,] -0.037082432</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [45,] -0.089273608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [46,] -0.060065520</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [47,]  0.166973324</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [48,]  0.001391650</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49,] -0.102904042</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [50,] -0.131248443</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [51,]  0.036014968</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [52,] -0.001484787</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [53,] -0.025445470</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [54,] -0.074348972</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55,] -0.118996825</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [56,] -0.086015384</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [57,]  0.080002304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [58,] -0.049701336</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [59,] -0.110754148</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [60,]  0.149543250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61,]  0.034008030</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [62,] -0.019091768</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [63,]  0.084678644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [64,]  0.070913812</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [65,] -0.049539444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [66,]  0.176488197</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67,] -0.020402162</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [68,] -0.113959572</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [69,] -0.011551968</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [70,]  0.016603067</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [71,]  0.184638272</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [72,]  0.008464189</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73,]  0.036559904</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [74,] -0.006172235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [75,] -0.026720067</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76,] -0.002778082</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [77,]  0.063011168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [78,]  0.166019601</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79,]  0.082191395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [80,]  0.096632672</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [81,] -0.098505874</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [82,]  0.078711646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [83,]  0.017593984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [84,] -0.117380002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85,]  0.041681819</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [86,] -0.012700368</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [87,]  0.117166985</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [88,] -0.061286560</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [89,] -0.034416940</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [90,] -0.074088760</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91,] -0.014168317</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [92,]  0.032160942</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [93,] -0.058539854</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [94,]  0.066429853</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [95,] -0.096646623</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [96,] -0.083838753</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97,]  0.115292617</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [98,] -0.081267797</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [99,]  0.032957977</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [100,] -0.030486084</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$output$sequence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91]  91  92  93  94  95  96  97  98  99 100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$output$ingest_time_ns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2277083384</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$output$schema</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1.0.0"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$events</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$event_sources</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$diagnostics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$diagnostics$closed_loop_emg_onset</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$diagnostics$closed_loop_emg_onset$detector</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "emg_onset"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$diagnostics$closed_loop_emg_onset$calibrated</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$diagnostics$closed_loop_emg_onset$active</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$diagnostics$closed_loop_emg_onset$score</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.34367186  1.30762365  1.21481880  1.21356873  0.44547892  0.40336316</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  0.96041519  1.43686751  2.22267369  2.16143231  2.51229589  1.58096910</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13]  2.47695968  1.64730165  2.09675839  2.50822009  2.40870055  0.99429560</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19]  1.03336738  0.71449765  0.50520362  0.90927224  1.28755051  1.38867275</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25]  1.74188387  2.13604865  1.83932608  1.53194471  1.77319196  1.39557895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31]  0.09170189  1.91287449  1.91537513  2.18801168  1.95964461  1.85421183</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37]  1.99607468  1.97969432  1.38601128  1.38078229  1.40476111 -1.58268207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43] -0.93201882  1.18258911  1.55245404  1.98326932  2.42325675  2.51884626</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49]  1.18311414  1.56895154  1.14957393  0.54358544  1.03049119  1.23242872</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [55]  0.42888669  0.68918716  0.69181264 -0.30656126 -0.33843434 -0.04324241</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61]  0.26876118  0.75018176  1.47236795  1.63930253  1.46436130  0.98361647</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$sequence_start</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$sequence_end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$ingest_ns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2277083384</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$process_start_ns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2278683497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$process_end_ns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2280138408</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$emit_ns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2280571528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$queue_wait_ms</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.600113</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$processing_ms</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.454911</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$end_to_end_ms</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.488144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$latency$budget_exceeded</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$state_sha256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "54feab96bd3cbc6370ae0e5e5668542bd12d1a4102c189a30e175feb7dbb9761"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$results[[1]]$schema</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1.0.0"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$n_processed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$n_remaining</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$state_sha256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "54feab96bd3cbc6370ae0e5e5668542bd12d1a4102c189a30e175feb7dbb9761"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pipeline$schema</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1.0.0"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $detections</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $actions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $state_sha256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2a9f5a40c32c362a5b333ce9823fcc42f142f2d04ff9e83138e099c7d7a1ccb1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $schema</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "physiostream.closed-loop/1.0.0"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu"><a href="closed-loop-lifecycle.html">closedLoopStop</a></span><span class="op">(</span><span class="va">controller</span>, now_ns <span class="op">=</span> <span class="fl">2e6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://x-biosignal.r-universe.dev/PhysioExperiment/reference/PhysioExperiment.html" class="external-link">PhysioExperiment</a></span><span class="op">(</span>assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>raw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span>, <span class="fl">10</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                       samplingRate <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">closedLoopProvenance</span><span class="op">(</span><span class="va">controller</span>, <span class="va">pe</span>, <span class="st">"raw"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Annotated-class.html" class="external-link">metadata</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span><span class="op">$</span><span class="va">provenance</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

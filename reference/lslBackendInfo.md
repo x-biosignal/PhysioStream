@@ -17,3 +17,12 @@ lslBackendInfo(backend = c("auto", "pylsl"))
 ## Value
 
 A serializable named list of backend and runtime versions.
+
+## Examples
+
+``` r
+# \donttest{
+# Resolving the backend version requires pylsl/liblsl to be installed.
+if (lslAvailable()) str(lslBackendInfo())
+# }
+```

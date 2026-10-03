@@ -27,3 +27,19 @@ pipelineRun(pipeline, max_chunks = Inf, timeout = 0)
 ## Value
 
 A plain list of processed results and stop diagnostics.
+
+## Examples
+
+``` r
+info <- streamInfo("demo", type = "EEG",
+                   channel_names = "C3", nominal_srate = 100)
+src <- streamOpen(loopbackSource(info, capacity = 64L))
+loopbackFeed(src, matrix(sin(seq_len(16)), 16, 1), seq_len(16) / 100)
+sos <- matrix(c(1, 0, 0, 1, 0, 0), 1L, 6L,
+              dimnames = list(NULL, c("b0", "b1", "b2", "a0", "a1", "a2")))
+pipeline <- streamPipeline(source = src, chunk_size = 8L)
+onChunk(pipeline, bandpassRmsOp(sos, window_samples = 4L))
+run <- pipelineRun(pipeline)
+run$n_processed
+#> [1] 2
+```
