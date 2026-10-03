@@ -1,0 +1,48 @@
+url: https://x-biosignal.github.io/PhysioStream/
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#2c3e50"
+navbar:
+  structure:
+    left: [reference, articles]
+    right: [ecosystem, search, github]
+  components:
+    ecosystem:
+      text: Ecosystem
+      menu:
+        - text: PhysioCore
+          href: https://x-biosignal.github.io/PhysioCore/
+        - text: PhysioIO
+          href: https://x-biosignal.github.io/PhysioIO/
+        - text: PhysioPreprocess
+          href: https://x-biosignal.github.io/PhysioPreprocess/
+        - text: PhysioAnalysis
+          href: https://x-biosignal.github.io/PhysioAnalysis/
+        - text: PhysioEEG
+          href: https://x-biosignal.github.io/PhysioEEG/
+        - text: PhysioECG
+          href: https://x-biosignal.github.io/PhysioECG/
+        - text: PhysioEMG
+          href: https://x-biosignal.github.io/PhysioEMG/
+        - text: PhysioEDA
+          href: https://x-biosignal.github.io/PhysioEDA/
+        - text: PhysioMoCap
+          href: https://x-biosignal.github.io/PhysioMoCap/
+        - text: PhysioCrossModal
+          href: https://x-biosignal.github.io/PhysioCrossModal/
+        - text: PhysioMSKNet
+          href: https://x-biosignal.github.io/PhysioMSKNet/
+        - text: PhysioOpenSim
+          href: https://x-biosignal.github.io/PhysioOpenSim/
+        - text: PhysioAnnotationHub
+          href: https://x-biosignal.github.io/PhysioAnnotationHub/
+        - text: PhysioClinical
+          href: https://x-biosignal.github.io/PhysioClinical/
+        - text: PhysioClinStats
+          href: https://x-biosignal.github.io/PhysioClinStats/
+        - text: PhysioReport
+          href: https://x-biosignal.github.io/PhysioReport/
+    github:
+      icon: fa-github
+      href: https://github.com/x-biosignal/PhysioCore

@@ -1,0 +1,6 @@
+^data-raw$
+^.*\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^CONTRIBUTING\.md$
+^CODE_OF_CONDUCT\.md$

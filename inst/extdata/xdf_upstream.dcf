@@ -1,0 +1,10 @@
+Upstream: https://github.com/xdf-modules/example-files
+Commit: 354bfe26c92cfac8d1f0454dbe046721df043153
+License: MIT; see XDF-EXAMPLE-FILES-LICENSE
+Minimal-Path: minimal.xdf
+Minimal-SHA256: cd1b4f2171b1b165b17528c75131bd912c9bee209182b60d8cc07f4cb63fccea
+Clock-Resets-Path: clock_resets.xdf
+Clock-Resets-SHA256: 88536b24df4ed09082a00b04c31f65fd2447fa7acb8b929ec264ff8fac29ccec
+Empty-Streams-Path: empty_streams.xdf
+Empty-Streams-SHA256: 50b7cfcd9116986f54258da36cffb3c5834621a0db97087c8ad0baaaf0293a76
+Validation: Files are byte-identical to the pinned upstream commit.

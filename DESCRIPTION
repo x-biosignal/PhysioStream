@@ -1,0 +1,90 @@
+Package: PhysioStream
+Title: Governed Real-Time Streams for Physiological Data
+Version: 0.9.4
+Authors@R:
+    person(given = "Yusuke",
+           family = "Matsui",
+           role = c("aut", "cre"),
+           email = "mail.to.matsui@gmail.com")
+Description: Provides validated stream metadata, source and sink contracts,
+    a bounded single-producer/single-consumer ring buffer, deterministic
+    in-process loopback streams, capability-gated Lab Streaming Layer
+    inlets and outlets, marker-event capture, governed Extensible Data
+    Format read/write, and conversion of buffered physiological samples
+    to PhysioExperiment objects, with explicit robust clock-offset, drift,
+    jitter, multi-stream synchronization, transactional causal processing
+    pipelines, explicit backpressure, monotonic latency measurement, and
+    governed loopback, MQTT, and TTL stimulation-command outlets with
+    arm, dead-man, maximum, duplicate-ID, and refractory interlocks,
+    plus causal EMG-onset, EEG-ERD, and phase-target detectors bound to
+    commit-before-stimulation closed-loop session control and provenance,
+    with a bounded live biofeedback scope and marker-anchored video-time
+    synchronization.
+Depends:
+    R (>= 4.2),
+    PhysioExperiment (>= 2.0.0)
+Imports:
+    methods,
+    Rcpp,
+    S4Vectors,
+    SummarizedExperiment,
+    PhysioPreprocess,
+    digest,
+    jsonlite,
+    xml2
+LinkingTo:
+    Rcpp
+Suggests:
+    PhysioCore,
+    reticulate,
+    shiny,
+    testthat (>= 3.2.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Collate:
+    'PhysioStream-package.R'
+    'class-stream-info.R'
+    'class-stream.R'
+    'RcppExports.R'
+    'ring-buffer.R'
+    'loopback.R'
+    'lsl-backend.R'
+    'lsl-info.R'
+    'lsl-endpoints.R'
+    'lsl-markers.R'
+    'xdf-backend.R'
+    'xdf-writer.R'
+    'io-xdf.R'
+    'clock-model.R'
+    'sync.R'
+    'sync-diagnostics.R'
+    'processor-state.R'
+    'adaptive.R'
+    'incremental-decomp.R'
+    'streaming-spectral.R'
+    'pipeline.R'
+    'pipeline-operations.R'
+    'benchmark-latency.R'
+    'trigger-command.R'
+    'trigger-backend.R'
+    'trigger-loopback.R'
+    'trigger-mqtt.R'
+    'trigger-ttl.R'
+    'closed-loop-detectors.R'
+    'closed-loop-phase.R'
+    'closed-loop.R'
+    'biofeedback-contract.R'
+    'biofeedback.R'
+    'video-sync.R'
+    'stream-to-pe.R'
+    'zzz.R'
+Config/testthat/edition: 3
+SystemRequirements: C++17
+URL: https://github.com/x-biosignal/PhysioStream, https://x-biosignal.r-universe.dev/PhysioStream, https://x-biosignal.github.io/PhysioStream/
+BugReports: https://github.com/x-biosignal/PhysioStream/issues
+Config/roxygen2/version: 8.0.0
+RoxygenNote: 7.3.3
